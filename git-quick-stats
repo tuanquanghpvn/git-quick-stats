@@ -252,6 +252,20 @@ function myDailyStats() {
 }
 
 function lineOfCode() {
+    option_picked "Line Of Code:"
+    echo -e $(printf "Without commit\t")
+
+    git diff --shortstat '@{0 day ago}' | sort -nr | tr ',' '\n' | LC_ALL=C awk '
+    { args[NR] = $0; }
+    END {
+      for (i = 1; i <= NR; ++i) {
+        printf "\t%s\n", args[i]
+      }
+      printf "\n\n"
+    }'
+
+    echo -e $(printf "\nCommited\t")
+
     echo -e "\t" $(git log --author="$(git config user.name)" --since=$(date "+%Y-%m-%dT00:00:00") --until=$(date "+%Y-%m-%dT23:59:59") --pretty=tformat: --numstat | awk '{ add += $1; subs += $2; loc += $1 - $2 } END { printf "Added lines: %s, Removed lines: %s, Total lines: %s", add, subs, loc }')
 }
 
