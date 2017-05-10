@@ -1,7 +1,7 @@
 
-## GIT quick statistics 
+## GIT quick statistics
 
-[![Travis](https://api.travis-ci.org/arzzen/git-quick-stats.svg?branch=master)](https://travis-ci.org/arzzen/git-quick-stats) 
+[![Travis](https://api.travis-ci.org/arzzen/git-quick-stats.svg?branch=master)](https://travis-ci.org/arzzen/git-quick-stats)
 [![homebrew](https://img.shields.io/homebrew/v/git-quick-stats.svg)]()
 
 > `git quick-stats` is a simple and efficient way to access various statistics in git repository.
@@ -12,8 +12,6 @@
 
 [**Installation**](#installation)
 * [**Unix OS**](#unix-like-os)
-* [**OS X**](#os-x-homebrew)
-* [**Windows**](#windows-cygwin)
 
 [**Usage**](#usage)
 * [**Git log since/unitl**](#git-log-since-until)
@@ -46,7 +44,7 @@
 
 ```bash
 git quick-stats
-# or 
+# or
 git-quick-stats
 ```
 
@@ -54,7 +52,7 @@ Or you can use (non-interactive) direct execution:
 
 `git quick-stats <optional-command-to-execute-directly>`
 
-Possible arguments: 
+Possible arguments:
 > suggestReviewers, detailedGitStats, commitsByHour, commitsByWeekday, commitsByMonth, commitsPerDay, commitsPerAuthor, myDailyStats, contributors,
 branchTree, branchesByDate, changelogs, changelogsByAuthor
 
@@ -71,7 +69,7 @@ export _GIT_UNTIL="2017-22-01"
 then run `git quick-stats` (affect all stats, except "My daily status" and "Git changelogs" )
 
 
-#### Git log limit 
+#### Git log limit
 
 You can set variable `_GIT_LIMIT` for limited output (it will affect: "Git changelogs" and "Branch tree view" )
 
@@ -109,18 +107,6 @@ For update/reinstall
 sudo make reinstall
 ```
 
-#### OS X (homebrew)
-
-```bash
-brew install git-quick-stats
-```
-
-#### Windows (cygwin)
-
-* [installer](https://gist.github.com/arzzen/35e09866dfdadf2108b2420045739245) 
-* [uninstaller](https://gist.github.com/arzzen/21c660014d0663b6c5710014714779d6)
-
-
 ## System requirements
 
 * Unix like OS with a proper shell
@@ -130,12 +116,12 @@ brew install git-quick-stats
 
 * [`bsdmainutils`](https://packages.debian.org/sid/bsdmainutils) `apt install bsdmainutils`
 
-## Contribution 
+## Contribution
 
 Want to contribute? Great! First, read this page.
 
 #### Code reviews
-All submissions, including submissions by project members, require review. 
+All submissions, including submissions by project members, require review.
 We use Github pull requests for this purpose.
 
 #### Some tips for good pull requests:
@@ -167,4 +153,3 @@ MIT see [LICENSE][] for the full license text.
    [read this page]: http://github.com/arzzen/git-quick-stats/blob/master/CONTRIBUTING.md
    [landing page]: http://arzzen.github.io/git-quick-stats
    [LICENSE]: https://github.com/arzzen/git-quick-stats/blob/master/LICENSE.txt
-

@@ -51,6 +51,7 @@ show_menu() {
     echo -e "${MENU} ${NUMBER} 13)${MENU} Git commits by author per hour ${NORMAL}"
     echo -e "${RED_TEXT} Suggest: ${NORMAL}"
     echo -e "${MENU} ${NUMBER} 14)${MENU} Code reviewers (based on git history) ${NORMAL}"
+    echo -e "${MENU} ${NUMBER} 15)${MENU} Line Of Code ${NORMAL}"
     echo -e ""
     echo -e "${ENTER_LINE}Please enter a menu option or ${RED_TEXT}press enter to exit. ${NORMAL}"
     read opt
@@ -146,11 +147,11 @@ function commitsByMonth() {
     do
         echo -en "\t$i\t"
         echo $(git shortlog -n --no-merges --format='%ad %s' $_since $_until | grep " $i " | wc -l)
-    done | awk '{ 
-        count[$1] = $2 
-        total += $2 
-    } 
-    END{ 
+    done | awk '{
+        count[$1] = $2
+        total += $2
+    }
+    END{
         for (month in count) {
             s="|";
             percent = ((count[month] / total) * 100) / 1.25;
@@ -173,13 +174,13 @@ function commitsByWeekday() {
     done | awk '{
 
     }
-    NR == FNR { 
-        count[$1] = $2; 
+    NR == FNR {
+        count[$1] = $2;
         total += $2;
-        next 
+        next
     }
-    END{ 
-        
+    END{
+
         for (day in count) {
             s="|";
             percent = ((count[day] / total) * 100) / 1.25;
@@ -205,11 +206,11 @@ function commitsByHour() {
     do
         echo -ne "\t$i\t"
         echo $(git shortlog -n --no-merges --format='%ad %s' $_author $_since $_until | grep " $i:" | wc -l)
-    done | awk '{ 
-        count[$1] = $2 
-        total += $2 
-    } 
-    END{ 
+    done | awk '{
+        count[$1] = $2
+        total += $2
+    }
+    END{
         for (hour in count) {
             s="|";
             percent = ((count[hour] / total) * 100) / 1.25;
@@ -234,7 +235,7 @@ function commitsPerAuthor()  {
       for (i = 1; i <= NR; ++i) {
         printf "%s,%2.1f%%\n", args[i], 100 * args[i] / sum
       }
-    }' | column -t -s, 
+    }' | column -t -s,
 }
 
 function myDailyStats() {
@@ -247,7 +248,11 @@ function myDailyStats() {
       }
     }'
 
-    echo -e "\t" $(git log --author="$(git config user.name)" --no-merges --since=$(date "+%Y-%m-%dT00:00:00") --until=$(date "+%Y-%m-%dT23:59:59") --reverse | grep commit | wc -l) "commits"
+    echo -e "\t" $(git log --author="$(git config user.name)" --since=$(date "+%Y-%m-%dT00:00:00") --until=$(date "+%Y-%m-%dT23:59:59") --reverse | grep commit | wc -l) "commits"
+}
+
+function lineOfCode() {
+    echo -e "\t" $(git log --author="$(git config user.name)" --since=$(date "+%Y-%m-%dT00:00:00") --until=$(date "+%Y-%m-%dT23:59:59") --pretty=tformat: --numstat | awk '{ add += $1; subs += $2; loc += $1 - $2 } END { printf "Added lines: %s, Removed lines: %s, Total lines: %s", add, subs, loc }')
 }
 
 function contributors() {
@@ -337,6 +342,9 @@ if [ $# -eq 1 ]
         "commitsByMonth")
            commitsByMonth
            ;;
+        "lineOfCode")
+           lineOfCode
+           ;;
         *)
            echo "Invalid argument. Possible arguments: suggestReviewers, detailedGitStats, commitsPerDay, commitsByMonth, commitsByWeekday, commitsByHour, commitsByAuthorByHour, commitsPerAuthor, myDailyStats, contributors, branchTree, branchesByDate, changelogs, changelogsByAuthor"
            exit 1
@@ -419,6 +427,10 @@ while [ opt != '' ]
            ;;
         14)
            suggestReviewers
+           show_menu
+           ;;
+        15)
+           lineOfCode
            show_menu
            ;;
         q)
